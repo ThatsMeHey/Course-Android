@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">CourseMobile</string>
+    <string name="app_name">Weather forecast</string>
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
+    <string name="gettingForecast">Getting forecast...</string>
+    <string name="errorMessage">Failed to load data. Check your internet connection and try again.</string>
+
+    <string name="humidity_format" translatable="false">%d%%</string>
+    <string name="temperature_format" translatable="false">%d°</string>
+    <string name="today_date_format" translatable="false">%1$s</string>
 </resources>

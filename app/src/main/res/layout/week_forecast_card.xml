@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/weekForecastCard"
+    style="@style/cardStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/weekForecastDayOfWeek"
+            style="@style/weekForecastTextStyle"
+            android:textStyle="bold"
+            android:textSize="@dimen/medium"
+            android:layout_width="@dimen/minDayNameWidth"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/weekForecastHumidity" />
+
+        <TextView
+            android:id="@+id/weekForecastHumidity"
+            style="@style/weekForecastTextStyle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/weatherDayIcon"/>
+
+        <ImageView
+            android:id="@+id/weatherDayIcon"
+            style="@style/forecastIconStyle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/weatherNightIcon" />
+
+        <ImageView
+            android:id="@+id/weatherNightIcon"
+            style="@style/forecastIconStyle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/weekForecastTemperatureDay"/>
+
+        <TextView
+            android:id="@+id/weekForecastTemperatureDay"
+            style="@style/weekForecastTextStyle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/weekForecastTemperatureNight"/>
+
+        <TextView
+            android:id="@+id/weekForecastTemperatureNight"
+            style="@style/weekForecastTextStyle"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="weekForecastTextStyle">
+        <item name="android:layout_width">@dimen/large</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginEnd">@dimen/tiny</item>
+    </style>
+
+    <style name="forecastIconStyle">
+        <item name="android:layout_width">@dimen/iconSize</item>
+        <item name="android:layout_height">@dimen/iconSize</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:padding">@dimen/tiny</item>
+        <item name="android:tint">@color/black</item>
+    </style>
+
+    <style name="cardStyle">
+        <item name="layout_constraintWidth_max">@dimen/maxWidth</item>
+        <item name="android:layout_margin">@dimen/tiny</item>
+        <item name="cardBackgroundColor">@color/cardBackground</item>
+    </style>
+
+</resources>

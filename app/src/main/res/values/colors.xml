@@ -2,4 +2,8 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="gray">#FF808080</color>
+    <color name="cardBackground">#d0e099</color>
+    <color name="spinnerBackground">#879653</color>
+    <color name="mainBackground">#f4fcd7</color>
 </resources>

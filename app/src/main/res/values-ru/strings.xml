@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Прогноз погоды</string>
+    <string name="today">Сегодня</string>
+    <string name="yesterday">Вчера</string>
+    <string name="gettingForecast">Получение прогноза...</string>
+    <string name="errorMessage">Не удалось получить данные. Проверьте подключение к интернету и попробуйте снова.</string>
+</resources>
