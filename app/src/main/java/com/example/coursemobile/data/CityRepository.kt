@@ -1,8 +1,10 @@
 package com.example.coursemobile.data
 
-class CityRepository {
-    private val api = RetrofitClient.cityApi
+import javax.inject.Inject
 
+class CityRepository @Inject constructor(
+    private val api: CityApi
+) {
     suspend fun getCity(cityName: String): List<CityDto> {
         return api.getCity(cityName)
     }

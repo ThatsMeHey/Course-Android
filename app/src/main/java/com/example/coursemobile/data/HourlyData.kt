@@ -6,5 +6,8 @@ data class HourlyData(
     @SerializedName("time") val time: List<String>,
     @SerializedName("temperature_2m") val temperature: List<Double>,
     @SerializedName("relative_humidity_2m") val humidity: List<Int>,
-    @SerializedName("weathercode") val weathercode: List<Int>
+    @SerializedName("weathercode") val weathercode: List<Int>,
+    @SerializedName("windspeed_10m") val windspeed: List<Double>,
+    @SerializedName("winddirection_10m") val winddirection: List<Double>,
+    @SerializedName("pressure_msl") val pressure: List<Double>
 )

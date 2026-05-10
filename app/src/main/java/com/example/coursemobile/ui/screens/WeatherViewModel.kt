@@ -5,20 +5,28 @@ import kotlinx.coroutines.launch
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.coursemobile.data.*
+import dagger.hilt.android.lifecycle.HiltViewModel
+import jakarta.inject.Inject
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-class WeatherViewModel : ViewModel() {
-    private val cityRepository = CityRepository()
-    private val weatherRepository = WeatherRepository()
+@HiltViewModel
+class WeatherViewModel @Inject constructor(
+    private val cityRepository: CityRepository,
+    private val weatherRepository: WeatherRepository
+) : ViewModel() {
 
     val cities = MutableLiveData<List<CityDto>>()
     val forecast = MutableLiveData<WeatherResponse>()
+    val selectedHour = MutableLiveData<Int?>()
+    val selectedDay = MutableLiveData<Int?>()
+    var loadedCityKey: String? = null
 
 
     sealed class ResponseState {
         object Loading : ResponseState()
         object Error: ResponseState()
+        object Success: ResponseState()
     }
 
     val responseState = MutableLiveData<ResponseState>()
@@ -49,6 +57,7 @@ class WeatherViewModel : ViewModel() {
                     today.format(formatter),
                     endDate.format(formatter)
                 )
+                responseState.value = ResponseState.Success
             }
             catch (e: Exception){
                 android.util.Log.e("debugging", "ошибка: ${e.message}")
@@ -58,6 +67,8 @@ class WeatherViewModel : ViewModel() {
     }
     fun loadForecastAgain() {
         val city = cities.value?.firstOrNull()
+        selectedDay.value = null
+        selectedHour.value = null
         responseState.value = ResponseState.Loading
         viewModelScope.launch {
             try {
@@ -70,6 +81,7 @@ class WeatherViewModel : ViewModel() {
                     today.format(formatter),
                     endDate.format(formatter)
                 )
+                responseState.value = ResponseState.Success
             }
             catch (e: Exception){
                 android.util.Log.e("debugging", "ошибка: ${e.message}")

@@ -7,13 +7,13 @@ import android.widget.ArrayAdapter
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
-import com.example.coursemobile.data.City
+import com.example.coursemobile.data.cities
 import com.example.coursemobile.databinding.ActivityMainBinding
 import com.example.coursemobile.ui.screens.WeatherViewModel
-import com.google.gson.Gson
-import java.util.Locale
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.getValue
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel: WeatherViewModel by viewModels()
@@ -24,24 +24,25 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val json = assets.open("cities.json")
-            .bufferedReader().readText()
-        val cities = Gson().fromJson(json, Array<City>::class.java)
-            .sortedBy { if (Locale.getDefault().language == "ru") it.nameRu else it.nameEn }
-
-
-        val displayNames = cities.map {
-            if (Locale.getDefault().language == "ru") it.nameRu else it.nameEn
-        }
-
-        val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, displayNames)
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        val adapter = ArrayAdapter(
+            this,
+            android.R.layout.simple_spinner_item,
+            cities.map { getString(it.nameRes) }
+        )
+        adapter.setDropDownViewResource(
+            android.R.layout.simple_spinner_dropdown_item
+        )
         binding.citySpinner.adapter = adapter
 
         binding.citySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
                 val selectedCity = cities[position]
-                viewModel.loadCities(selectedCity.key)
+                if (selectedCity.key != viewModel.loadedCityKey) {
+                    viewModel.loadedCityKey = selectedCity.key
+                    viewModel.loadCities(selectedCity.key)
+                    viewModel.selectedDay.value = null
+                    viewModel.selectedHour.value = null
+                }
             }
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }
@@ -49,6 +50,10 @@ class MainActivity : AppCompatActivity() {
         viewModel.cities.observe(this) { cityList ->
             val city = cityList.firstOrNull() ?: return@observe
             viewModel.loadForecast(city)
+        }
+
+        binding.refreshButton.setOnClickListener {
+            viewModel.loadForecastAgain()
         }
     }
 }

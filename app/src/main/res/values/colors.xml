@@ -3,7 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="gray">#FF808080</color>
-    <color name="cardBackground">#d0e099</color>
-    <color name="spinnerBackground">#879653</color>
-    <color name="mainBackground">#f4fcd7</color>
+    <color name="cardBackground">#d6e1ff</color>
+    <color name="spinnerBackground">#abc1ed</color>
+    <color name="mainBackground">#8da9e3</color>
 </resources>

@@ -17,6 +17,16 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@color/spinnerBackground"/>
 
+    <ImageButton
+        android:id="@+id/refreshButton"
+        android:layout_width="@dimen/x_large"
+        android:layout_height="@dimen/x_large"
+        android:src="@drawable/wi_refresh"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/citySpinner"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/nav_host_fragment"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -24,7 +34,7 @@
         android:layout_height="0dp"
         app:navGraph="@navigation/nav_graph"
         app:defaultNavHost="true"
-        app:layout_constraintTop_toBottomOf="@id/citySpinner"
+        app:layout_constraintTop_toBottomOf="@id/refreshButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

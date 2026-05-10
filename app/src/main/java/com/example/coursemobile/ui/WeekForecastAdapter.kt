@@ -4,13 +4,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coursemobile.data.HourlyData
 import com.example.coursemobile.R
 import com.example.coursemobile.data.WeatherUtils
+import com.example.coursemobile.ui.screens.WeatherViewModel
+import com.google.android.material.card.MaterialCardView
 import java.time.LocalDateTime
 
-class WeekForecastAdapter(private val hourly: HourlyData, private val sortedDates: List<String>, private val localTodayDate: LocalDateTime) :
+class WeekForecastAdapter(private val hourly: HourlyData, private val sortedDates: List<String>, private val localTodayDate: LocalDateTime, private val viewModel: WeatherViewModel) :
     RecyclerView.Adapter<WeekForecastAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -40,6 +43,20 @@ class WeekForecastAdapter(private val hourly: HourlyData, private val sortedDate
         holder.iconNight.setImageResource(WeatherUtils.getWeatherIcon(daySummary.nightWeatherCode, 1))
         holder.temperatureDay.text = holder.itemView.context.getString(R.string.temperature_format, daySummary.maxTemp)
         holder.temperatureNight.text = holder.itemView.context.getString(R.string.temperature_format, daySummary.minTemp)
+
+        holder.itemView.setOnClickListener {
+            viewModel.selectedHour.value = 0
+            viewModel.selectedDay.value = position
+        }
+
+        val isSelected = position == viewModel.selectedDay.value
+        val card = holder.itemView as MaterialCardView
+        val color = ContextCompat.getColor(
+            holder.itemView.context,
+            if (isSelected) R.color.spinnerBackground
+            else R.color.cardBackground
+        )
+        card.setCardBackgroundColor(color)
     }
 
     override fun getItemCount() = sortedDates.size

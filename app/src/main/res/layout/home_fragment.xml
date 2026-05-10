@@ -1,20 +1,22 @@
-<androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:id="@+id/swipeRefresh"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="@dimen/medium"
     tools:context=".ui.HomeFragment"
-    android:background="@color/mainBackground">
+    android:background="@color/mainBackground"
+    android:requiresFadingEdge="vertical"
+    android:fadingEdgeLength="@dimen/medium">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/medium">
 
         <TextView
-            android:id="@+id/todayDate"
+            android:id="@+id/status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
@@ -23,15 +25,25 @@
             android:textSize="@dimen/big"
             android:textStyle="bold"/>
 
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/detailedWeather"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/status" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/todayHourlyForecast"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/todayDate"
+            app:layout_constraintTop_toBottomOf="@id/detailedWeather"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="@dimen/big"/>
+            android:layout_marginTop="@dimen/medium"
+            android:requiresFadingEdge="horizontal"
+            android:fadingEdgeLength="@dimen/medium"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/weekForecast"
@@ -39,9 +51,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/todayHourlyForecast"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="@dimen/medium"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</androidx.core.widget.NestedScrollView>

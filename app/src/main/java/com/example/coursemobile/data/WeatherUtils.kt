@@ -25,6 +25,21 @@ object WeatherUtils {
         }
     }
 
+    fun getWeatherName(code: Int, hour: Int): Int {
+        return when {
+            code == 0 -> R.string.clearSky
+            code in 1..2 -> R.string.partlyCloudy
+            code == 3 -> R.string.cloudy
+            code == 45 || code == 48 -> R.string.fog
+            code in 51..67 -> R.string.rain
+            code in 71..77 -> R.string.snow
+            code in 80..82 -> R.string.shower
+            code in 85..86 -> R.string.snowShower
+            code in 95..99 -> R.string.thunderstorm
+            else -> R.string.noData
+        }
+    }
+
     fun getDailySummary(hourly: HourlyData, date: String, localDate: String): DailySummary {
         val indices = hourly.time.indices.filter {
             hourly.time[it].startsWith(date)
@@ -54,5 +69,19 @@ object WeatherUtils {
             minTemp = nightIndices.minOfOrNull { hourly.temperature[it] }?.roundToInt() ?: 0,
             humidity = indices.map { hourly.humidity[it] }.average().roundToInt()
         )
+    }
+
+    fun getWindDirection(deg: Double): Int {
+        return when (deg) {
+            in 0.0..22.5, in 337.5..360.0 -> R.string.north
+            in 22.5..67.5 -> R.string.northEast
+            in 67.5..112.5 -> R.string.east
+            in 112.5..157.5 -> R.string.southEast
+            in 157.5..202.5 -> R.string.south
+            in 202.5..247.5 -> R.string.southWest
+            in 247.5..292.5 -> R.string.west
+            in 292.5..337.5 -> R.string.northWest
+            else -> R.string.noData
+        }
     }
 }
