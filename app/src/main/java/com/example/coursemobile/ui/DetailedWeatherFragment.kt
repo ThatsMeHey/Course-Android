@@ -6,10 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.coursemobile.R
 import com.example.coursemobile.data.WeatherUtils
 import com.example.coursemobile.databinding.DetailedWeatherFragmentBinding
 import com.example.coursemobile.ui.screens.WeatherViewModel
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.launch
 import java.time.LocalDateTime
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -28,15 +35,28 @@ class DetailedWeatherFragment : Fragment() {
     ): View {
         _binding = DetailedWeatherFragmentBinding.inflate(inflater, container, false)
 
-        viewModel.forecast.observe(viewLifecycleOwner) { updateUI() }
-        viewModel.selectedDay.observe(viewLifecycleOwner) { updateUI() }
-        viewModel.selectedHour.observe(viewLifecycleOwner) { updateUI() }
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                combine(
+                    viewModel.uiState.map { it.forecast }.distinctUntilChanged(),
+                    viewModel.uiState.map { it.selectedDay }.distinctUntilChanged(),
+                    viewModel.uiState.map { it.selectedHour }.distinctUntilChanged()
+                ) { _, _, _ ->
+                }.collect {
+                    updateUI()
+                }
+            }
+        }
 
-        viewModel.responseState.observe(viewLifecycleOwner) { state ->
-            binding.root.visibility = when (state) {
-                is WeatherViewModel.ResponseState.Loading -> View.GONE
-                is WeatherViewModel.ResponseState.Error -> View.GONE
-                is WeatherViewModel.ResponseState.Success -> View.VISIBLE
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.map { it.responseState }.distinctUntilChanged().collect { state ->
+                    binding.root.visibility = when (state) {
+                        is WeatherViewModel.ResponseState.Loading -> View.GONE
+                        is WeatherViewModel.ResponseState.Error -> View.GONE
+                        is WeatherViewModel.ResponseState.Success -> View.VISIBLE
+                    }
+                }
             }
         }
 
@@ -44,18 +64,18 @@ class DetailedWeatherFragment : Fragment() {
     }
 
     private fun updateUI() {
-        val response = viewModel.forecast.value ?: return
-        val hour = viewModel.selectedHour.value ?: return
+        val response = viewModel.uiState.value.forecast ?: return
+        val hour = viewModel.uiState.value.selectedHour ?: return
 
         val hourly = response.hourly
         val days = viewModel.groupByDay(hourly)
         val sortedDates = days.keys.sorted()
-        val firstDate = sortedDates[viewModel.selectedDay.value ?: 0]
+        val firstDate = sortedDates[viewModel.uiState.value.selectedDay]
         val firstIndices = days[firstDate]!!
 
         val targetOffset = ZoneOffset.ofTotalSeconds(response.utcOffsetSeconds)
         val date = LocalDateTime.now(targetOffset)
-            .plusDays((viewModel.selectedDay.value ?: 0).toLong())
+            .plusDays((viewModel.uiState.value.selectedDay).toLong())
             .withHour(hour)
 
         val formatter = DateTimeFormatter.ofPattern("d MMMM HH:00", Locale.getDefault())

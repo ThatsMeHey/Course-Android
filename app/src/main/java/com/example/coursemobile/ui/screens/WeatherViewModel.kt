@@ -7,8 +7,15 @@ import androidx.lifecycle.ViewModel
 import com.example.coursemobile.data.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import jakarta.inject.Inject
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 @HiltViewModel
 class WeatherViewModel @Inject constructor(
@@ -17,10 +24,8 @@ class WeatherViewModel @Inject constructor(
 ) : ViewModel() {
 
     val cities = MutableLiveData<List<CityDto>>()
-    val forecast = MutableLiveData<WeatherResponse>()
-    val selectedHour = MutableLiveData<Int?>()
-    val selectedDay = MutableLiveData<Int?>()
-    var loadedCityKey: String? = null
+    private val _uiState = MutableStateFlow(WeatherUiState())
+    val uiState: StateFlow<WeatherUiState> = _uiState.asStateFlow()
 
 
     sealed class ResponseState {
@@ -28,66 +33,57 @@ class WeatherViewModel @Inject constructor(
         object Error: ResponseState()
         object Success: ResponseState()
     }
-
-    val responseState = MutableLiveData<ResponseState>()
+    fun selectDay(day: Int) {
+        _uiState.update { it.copy(selectedDay = day) }
+    }
+    fun selectHour(hour: Int) {
+        _uiState.update { it.copy(selectedHour = hour) }
+    }
 
     fun loadCities(name: String) {
-        responseState.value = ResponseState.Loading
+        _uiState.update { it.copy(responseState = ResponseState.Loading) }
         viewModelScope.launch {
             try {
                 val result = cityRepository.getCity(name)
                 cities.value = result
             } catch (e: Exception) {
                 android.util.Log.e("debugging", "ошибка: ${e.message}")
-                responseState.value = ResponseState.Error
+                _uiState.update { it.copy(responseState = ResponseState.Error) }
             }
         }
     }
 
     fun loadForecast(city: CityDto) {
-        responseState.value = ResponseState.Loading
+        _uiState.update { it.copy(responseState = ResponseState.Loading) }
         viewModelScope.launch {
             try {
                 val today = LocalDate.now()
                 val endDate = today.plusDays(6)
                 val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                forecast.value = weatherRepository.getForecastForWeek(
+                _uiState.update { it.copy(forecast = weatherRepository.getForecastForWeek(
                     city.latitude,
                     city.longitude,
                     today.format(formatter),
                     endDate.format(formatter)
+                ))}
+                val date = LocalDateTime.now(
+                    ZoneOffset.ofTotalSeconds(uiState.value.forecast!!.utcOffsetSeconds)
                 )
-                responseState.value = ResponseState.Success
+                _uiState.update { it.copy(selectedDay = 0) }
+                val hourFormatter = DateTimeFormatter.ofPattern("HH", Locale.getDefault())
+                _uiState.update { it.copy(selectedHour =  date.format(hourFormatter).toInt()) }
+
+                _uiState.update { it.copy(responseState = ResponseState.Success) }
             }
             catch (e: Exception){
                 android.util.Log.e("debugging", "ошибка: ${e.message}")
-                responseState.value = ResponseState.Error
+                _uiState.update { it.copy(responseState = ResponseState.Error) }
             }
         }
     }
     fun loadForecastAgain() {
         val city = cities.value?.firstOrNull()
-        selectedDay.value = null
-        selectedHour.value = null
-        responseState.value = ResponseState.Loading
-        viewModelScope.launch {
-            try {
-                val today = LocalDate.now()
-                val endDate = today.plusDays(6)
-                val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-                forecast.value = weatherRepository.getForecastForWeek(
-                    city!!.latitude,
-                    city.longitude,
-                    today.format(formatter),
-                    endDate.format(formatter)
-                )
-                responseState.value = ResponseState.Success
-            }
-            catch (e: Exception){
-                android.util.Log.e("debugging", "ошибка: ${e.message}")
-                responseState.value = ResponseState.Error
-            }
-        }
+        if (city != null) loadForecast(city)
     }
     fun groupByDay(hourly: HourlyData): Map<String, List<Int>> {
         return hourly.time.indices.groupBy { i ->

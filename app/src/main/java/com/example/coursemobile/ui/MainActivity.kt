@@ -36,13 +36,7 @@ class MainActivity : AppCompatActivity() {
 
         binding.citySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                val selectedCity = cities[position]
-                if (selectedCity.key != viewModel.loadedCityKey) {
-                    viewModel.loadedCityKey = selectedCity.key
-                    viewModel.loadCities(selectedCity.key)
-                    viewModel.selectedDay.value = null
-                    viewModel.selectedHour.value = null
-                }
+                viewModel.loadCities(cities[position].key)
             }
             override fun onNothingSelected(parent: AdapterView<*>) {}
         }

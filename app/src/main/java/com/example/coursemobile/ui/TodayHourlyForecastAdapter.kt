@@ -5,16 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.coursemobile.data.HourlyData
 import com.example.coursemobile.R
 import com.example.coursemobile.data.WeatherUtils
-import com.example.coursemobile.ui.screens.WeatherViewModel
-import com.google.android.material.card.MaterialCardView
 import kotlin.math.roundToInt
 
-class TodayHourlyForecastAdapter(private val hourly: HourlyData, private val indices: List<Int>, private val viewModel: WeatherViewModel) :
+class TodayHourlyForecastAdapter(private val hourly: HourlyData,
+                                 private val indices: List<Int>,
+                                 private val onItemClick: (Int) -> Unit) :
     RecyclerView.Adapter<TodayHourlyForecastAdapter.ViewHolder>() {
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
@@ -42,17 +41,8 @@ class TodayHourlyForecastAdapter(private val hourly: HourlyData, private val ind
         holder.humidity.text = holder.itemView.context.getString(R.string.humidity_format, humidity)
 
         holder.itemView.setOnClickListener {
-            viewModel.selectedHour.value = position
+            onItemClick(position)
         }
-
-        val isSelected = position == viewModel.selectedHour.value
-        val card = holder.itemView as MaterialCardView
-        val color = ContextCompat.getColor(
-            holder.itemView.context,
-            if (isSelected) R.color.spinnerBackground
-            else R.color.cardBackground
-        )
-        card.setCardBackgroundColor(color)
     }
 
     override fun getItemCount() = indices.size
