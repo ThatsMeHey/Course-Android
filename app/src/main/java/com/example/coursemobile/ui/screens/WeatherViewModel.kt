@@ -26,6 +26,7 @@ class WeatherViewModel @Inject constructor(
     val cities = MutableLiveData<List<CityDto>>()
     private val _uiState = MutableStateFlow(WeatherUiState())
     val uiState: StateFlow<WeatherUiState> = _uiState.asStateFlow()
+    lateinit var cityKey: String
 
 
     sealed class ResponseState {
@@ -41,6 +42,7 @@ class WeatherViewModel @Inject constructor(
     }
 
     fun loadCities(name: String) {
+        cityKey = name
         _uiState.update { it.copy(responseState = ResponseState.Loading) }
         viewModelScope.launch {
             try {
@@ -82,6 +84,8 @@ class WeatherViewModel @Inject constructor(
         }
     }
     fun loadForecastAgain() {
+        if (cities.value?.firstOrNull() == null) loadCities(cityKey)
+
         val city = cities.value?.firstOrNull()
         if (city != null) loadForecast(city)
     }

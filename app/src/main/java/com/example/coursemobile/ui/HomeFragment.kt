@@ -102,8 +102,6 @@ class HomeFragment : Fragment() {
                                 viewModel.selectHour(0)
                                 viewModel.selectDay(position)
                             })
-
-                    recyclerViewToday.scrollToPosition(viewModel.uiState.value.selectedHour)
                 }
             }
         }

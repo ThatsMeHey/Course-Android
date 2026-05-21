@@ -66,8 +66,8 @@
             android:id="@+id/windDirectionIcon"
             style="@style/forecastIconStyle"
             android:src="@drawable/wi_wind_deg"
-            android:layout_width="@dimen/large"
-            android:layout_height="@dimen/large"
+            android:layout_width="@dimen/x_large"
+            android:layout_height="@dimen/x_large"
             app:layout_constraintTop_toTopOf="@id/windDirection"
             app:layout_constraintEnd_toStartOf="@+id/windDirection"
             app:layout_constraintBottom_toBottomOf="@id/windDirection"/>
