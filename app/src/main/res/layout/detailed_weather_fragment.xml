@@ -1,0 +1,124 @@
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detailed_weather_card"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:cardBackgroundColor="@android:color/transparent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/detailed_weather_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/pattern_back_detail"
+        tools:context=".ui.DetailedWeatherFragment"
+        android:padding="@dimen/big">
+
+        <TextView
+            android:id="@+id/todayDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="@dimen/big"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/currentTemperature"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/todayDate"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="@dimen/minDayNameWidth"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/currentWeather"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/currentTemperature"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="@dimen/big"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/windSpeedIcon"
+            style="@style/forecastIconStyle"
+            android:src="@drawable/wi_wind"
+            app:layout_constraintTop_toTopOf="@id/windSpeed"
+            app:layout_constraintEnd_toStartOf="@+id/windSpeed"
+            app:layout_constraintBottom_toBottomOf="@id/windSpeed"/>
+
+        <TextView
+            android:id="@+id/windSpeed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/currentWeather"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="@dimen/big"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/big"/>
+
+        <ImageView
+            android:id="@+id/windDirectionIcon"
+            style="@style/forecastIconStyle"
+            android:src="@drawable/wi_wind_deg"
+            android:layout_width="@dimen/x_large"
+            android:layout_height="@dimen/x_large"
+            app:layout_constraintTop_toTopOf="@id/windDirection"
+            app:layout_constraintEnd_toStartOf="@+id/windDirection"
+            app:layout_constraintBottom_toBottomOf="@id/windDirection"/>
+
+        <TextView
+            android:id="@+id/windDirection"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/windSpeed"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="@dimen/big"
+            android:textStyle="bold"/>
+
+        <ImageView
+            android:id="@+id/pressureIcon"
+            style="@style/forecastIconStyle"
+            android:src="@drawable/wi_barometer"
+            app:layout_constraintTop_toTopOf="@id/pressure"
+            app:layout_constraintEnd_toStartOf="@+id/pressure"
+            app:layout_constraintBottom_toBottomOf="@id/pressure"/>
+
+        <TextView
+            android:id="@+id/pressure"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/windDirection"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="@dimen/big"
+            android:textStyle="bold"
+            android:layout_marginTop="@dimen/big"/>
+
+        <ImageView
+            android:id="@+id/currentHumidityIcon"
+            style="@style/forecastIconStyle"
+            android:src="@drawable/wi_humidity"
+            android:layout_width="@dimen/x_large"
+            android:layout_height="@dimen/x_large"
+            app:layout_constraintTop_toTopOf="@id/currentHumidity"
+            app:layout_constraintEnd_toStartOf="@+id/currentHumidity"
+            app:layout_constraintBottom_toBottomOf="@id/currentHumidity"/>
+
+        <TextView
+            android:id="@+id/currentHumidity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/pressure"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:textSize="@dimen/big"
+            android:textStyle="bold"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

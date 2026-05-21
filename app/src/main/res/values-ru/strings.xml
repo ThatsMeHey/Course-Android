@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Прогноз погоды</string>
+    <string name="today">Сегодня</string>
+    <string name="yesterday">Вчера</string>
+    <string name="gettingForecast">Получение прогноза...</string>
+    <string name="errorMessage">Не удалось получить данные. Проверьте подключение к интернету и попробуйте снова.</string>
+    <string name="wind_speed">%.1f км/ч</string>
+    <string name="pressure">%d мбар</string>
+
+
+    <string name="city_moscow">Москва</string>
+    <string name="city_saint_petersburg">Санкт-Петербург</string>
+    <string name="city_izhevsk">Ижевск</string>
+    <string name="city_novosibirsk">Новосибирск</string>
+    <string name="city_yekaterinburg">Екатеринбург</string>
+    <string name="city_london">Лондон</string>
+    <string name="city_paris">Париж</string>
+    <string name="city_berlin">Берлин</string>
+    <string name="city_rome">Рим</string>
+    <string name="city_amsterdam">Амстердам</string>
+    <string name="city_tokyo">Токио</string>
+
+
+    <string name="clearSky">Ясно</string>
+    <string name="partlyCloudy">Облачно с прояснениями</string>
+    <string name="cloudy">Облачно</string>
+    <string name="fog">Туман</string>
+    <string name="rain">Дождь</string>
+    <string name="snow">Снег</string>
+    <string name="shower">Кратковременный дождь</string>
+    <string name="snowShower">Кратковременный снег</string>
+    <string name="thunderstorm">Гроза</string>
+    <string name="noData">Нет данных</string>
+
+    <string name="north">Северный</string>
+    <string name="east">Восточный</string>
+    <string name="south">Южный</string>
+    <string name="west">Западный</string>
+    <string name="northEast">Северо-восточный</string>
+    <string name="northWest">Северо-западный</string>
+    <string name="southEast">Юго-восточный</string>
+    <string name="southWest">Юго-западный</string>
+</resources>

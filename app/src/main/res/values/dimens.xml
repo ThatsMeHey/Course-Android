@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="tiny">4dp</dimen>
+    <dimen name="small">9dp</dimen>
+    <dimen name="medium">16dp</dimen>
+    <dimen name="big">25dp</dimen>
+    <dimen name="large">36dp</dimen>
+    <dimen name="x_large">45dp</dimen>
+    <dimen name="veryLarge">90dp</dimen>
+    <dimen name="minDayNameWidth">65dp</dimen>
+    <dimen name="maxWidth">450dp</dimen>
+    <dimen name="maxWidthTAblet">650dp</dimen>
+    <dimen name="iconSize">50dp</dimen>
+    <dimen name="iconSizeLand">120dp</dimen>
+</resources>
